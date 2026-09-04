@@ -1,0 +1,674 @@
+/* =========================================================
+   Hackathon ClubeDS — portal independente
+   Linguagem visual: esquema técnico / placa de circuito,
+   ecoando o próprio ícone da marca (fábrica + trilhas de PCB).
+   ========================================================= */
+
+:root{
+  --navy:        #0a1a2f;
+  --navy-panel:  #0e223b;
+  --navy-panel-2:#122a47;
+  --orange:      #f2811d;
+  --orange-soft: #ffa94d;
+  --paper:       #edf1f5;
+  --muted:       #93a6c2;
+  --line:        rgba(147,166,194,.22);
+  --line-strong: rgba(147,166,194,.4);
+
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --max: 1120px;
+  --pad: 20px;
+  --bw: 2px;      /* espessura dos traços de canto */
+  --bracket: 16px;/* tamanho dos cantos tipo esquema técnico */
+}
+
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+html,body{ height: 100%; }
+body{
+  margin:0;
+  font-family: var(--font-sans);
+  color: var(--paper);
+  background-color: var(--navy);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(147,166,194,.05) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(90deg, rgba(147,166,194,.05) 0 1px, transparent 1px 48px);
+  line-height: 1.5;
+}
+
+a{ color: inherit; -webkit-tap-highlight-color: transparent; }
+img{ max-width: 100%; display:block; }
+:focus-visible{ outline: 2px solid var(--orange); outline-offset: 3px; }
+button, .btn{ -webkit-tap-highlight-color: transparent; }
+
+.container{ width: min(var(--max), calc(100% - 2*var(--pad))); margin: 0 auto; }
+.muted{ color: var(--muted); }
+
+h1,h2,h3,h4{
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+p{ margin: 0; }
+
+/* ---------- painel com cantos de esquema técnico ---------- */
+.panel{
+  position: relative;
+  background: rgba(14,34,59,.6);
+  background-image:
+    linear-gradient(to right, var(--orange) var(--bw), transparent var(--bw)),
+    linear-gradient(to bottom, var(--orange) var(--bw), transparent var(--bw)),
+    linear-gradient(to left, var(--orange) var(--bw), transparent var(--bw)),
+    linear-gradient(to bottom, var(--orange) var(--bw), transparent var(--bw)),
+    linear-gradient(to right, var(--orange) var(--bw), transparent var(--bw)),
+    linear-gradient(to top, var(--orange) var(--bw), transparent var(--bw)),
+    linear-gradient(to left, var(--orange) var(--bw), transparent var(--bw)),
+    linear-gradient(to top, var(--orange) var(--bw), transparent var(--bw));
+  background-repeat: no-repeat;
+  background-size: var(--bracket) var(--bracket);
+  background-position:
+    top left, top left,
+    top right, top right,
+    bottom right, bottom right,
+    bottom left, bottom left;
+  border: 1px solid var(--line);
+  padding: 22px;
+}
+
+/* ---------- topo ---------- */
+.topbar{
+  position: sticky; top:0; z-index: 30;
+  background: rgba(10,26,47,.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar__inner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 12px 0;
+  gap: 16px;
+}
+.brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+.brand img{ width: 38px; height: 38px; object-fit: contain; }
+
+.brand__logo-senai{
+  width: auto;
+  height: 44px;        /* maior que antes (era 30px) */
+  max-width: 170px;
+  object-fit: contain;
+  background: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.brand__logo-icon{
+  /* alinhado à mesma altura do logo SENAI CIMATEC, mantendo proporção original (sem esticar) */
+  width: auto;
+  height: 44px;
+  object-fit: contain;
+}
+
+
+.brand__text{ display:flex; flex-direction:column; line-height:1.15; }
+.brand__text strong{ font-size:14px; }
+.brand__text span{ font-family: var(--font-mono); font-size:11px; color: var(--muted); }
+
+.topnav{ display:flex; align-items:center; gap: 10px; }
+.topnav a{
+  text-decoration:none; color: var(--muted); font-size:14px;
+  font-weight:600;
+  padding: 8px 14px;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.topnav .cta{ border-color: var(--orange); color: var(--orange-soft); }
+
+/* laranja só em dois momentos: enquanto o dedo/clique está pressionado
+   (:active) e enquanto a seção correspondente está em foco no scroll
+   (.is-active, controlado via JS) — nunca fica "preso" para sempre */
+.topnav a:active,
+.topnav a.is-active{
+  background: var(--orange);
+  color: var(--navy);
+  border-color: var(--orange);
+}
+
+@media (hover: hover) and (pointer: fine){
+  .topnav a:hover{ color: var(--paper); border-color: var(--line-strong); }
+  .topnav .cta:hover{ background: var(--orange); color: var(--navy); border-color: var(--orange); }
+}
+
+.menu-toggle{
+  display:none;
+  width:40px; height:40px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--paper);
+}
+.menu-toggle span{
+  position: relative;
+  display:block;
+  width:18px; height:2px;
+  background: currentColor;
+  margin: 0 auto;
+}
+.menu-toggle span::before,
+.menu-toggle span::after{
+  content:"";
+  position:absolute;
+  left:0;
+  width:18px; height:2px;
+  background: currentColor;
+}
+.menu-toggle span::before{ top:-6px; }
+.menu-toggle span::after{ top:6px; }
+
+/* ---------- hero ---------- */
+.hero{ padding: 64px 0 40px; }
+.hero__grid{
+  display:grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 40px;
+  align-items:center;
+}
+.hero__text h1{
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  max-width: 16ch;
+  margin-bottom: 18px;
+  animation: rise .6s ease both;
+}
+.hero__lead{
+  color: var(--muted);
+  font-size: 16.5px;
+  line-height: 1.65;
+  max-width: 46ch;
+  margin-bottom: 26px;
+  animation: rise .6s .08s ease both;
+}
+.hero__actions{ display:flex; gap:12px; flex-wrap:wrap; animation: rise .6s .16s ease both; }
+
+@keyframes rise{
+  from{ opacity:0; transform: translateY(10px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce){
+  .hero__text h1, .hero__lead, .hero__actions{ animation:none; }
+}
+
+.hero__frame{
+  position: relative;
+  padding: 34px;
+  display:grid;
+  place-items:center;
+}
+.hero__frame img{ width: 100%; max-width: 380px; }
+
+/* ---------- botões ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:8px;
+  padding: 13px 20px;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 600;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--paper);
+  cursor: pointer;
+  text-decoration:none;
+}
+.btn--solid{
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--navy);
+}
+.btn--block{ width:100%; }
+@media (hover: hover) and (pointer: fine){
+  .btn:hover{ border-color: var(--orange); color: var(--orange-soft); }
+  .btn--solid:hover{ background: var(--orange-soft); border-color: var(--orange-soft); color: var(--navy); }
+}
+
+/* ---------- linha de circuito (fatos em módulos) ---------- */
+.circuit-row{
+  position: relative;
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 18px;
+  margin-top: 8px;
+}
+.circuit-row::before{
+  content:"";
+  position:absolute;
+  top: 5px; left: 12.5%; right: 12.5%;
+  height: 1px;
+  background: repeating-linear-gradient(to right, var(--orange) 0 6px, transparent 6px 13px);
+}
+.node{ position:relative; padding-top: 24px; text-align:center; }
+.node__dot{
+  position:absolute; top:0; left:50%; transform: translateX(-50%);
+  width:10px; height:10px; border-radius:50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 4px rgba(242,129,29,.18);
+}
+.node strong{ display:block; font-size:14.5px; margin-bottom: 4px; }
+.node span{ color: var(--muted); font-size: 13px; }
+
+/* ---------- seções ---------- */
+.section{ padding: 56px 0; }
+.section--line{ border-top: 1px solid var(--line); }
+.section__head{ margin-bottom: 30px; max-width: 62ch; }
+.section__head h2{ font-size: clamp(22px, 3vw, 30px); margin-bottom: 10px; }
+.section__head p{ color: var(--muted); font-size: 15.5px; line-height:1.6; }
+
+/* ---------- sobre + ficha técnica ---------- */
+.about{
+  display:grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 30px;
+  align-items:start;
+}
+.about__text p{ color: var(--muted); font-size:15.5px; line-height:1.7; margin-bottom:16px; }
+.about__list{ display:grid; gap:10px; margin-top: 18px; }
+.about__list div{
+  display:flex; gap:10px; align-items:flex-start;
+  font-size:14.5px; color: var(--paper);
+}
+.about__list div::before{
+  content:""; flex:0 0 auto; width:8px; height:8px; margin-top:6px;
+  background: var(--orange);
+}
+
+.spec{ display:grid; }
+.spec__row{
+  display:flex; align-items:baseline; justify-content:space-between; gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.spec__row:last-child{ border-bottom:none; }
+.spec__label{ color: var(--muted); font-size:13.5px; }
+.spec__value{ font-family: var(--font-mono); font-size:13.5px; text-align:right; color: var(--paper); }
+
+/* ---------- oportunidades (módulos) ---------- */
+.modules{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 18px;
+}
+.module{ border-left: 2px solid var(--orange); padding: 4px 0 4px 16px; }
+.module h3{ font-size:16px; margin-bottom:8px; }
+.module p{ color: var(--muted); font-size:14px; line-height:1.6; }
+
+/* ---------- destaque do hackathon ---------- */
+.hackathon{
+  padding: 64px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(700px 320px at 8% 0%, rgba(242,129,29,.14), transparent 60%),
+    var(--navy-panel);
+}
+.hackathon__head{ max-width: 68ch; margin-bottom: 34px; }
+.hackathon__head h2{ font-size: clamp(26px, 3.6vw, 38px); margin-bottom: 14px; }
+.hackathon__head p{ color: var(--muted); font-size: 16.5px; line-height:1.7; }
+.hackathon .circuit-row{ margin-top: 30px; margin-bottom: 34px; }
+.hackathon .node{ text-align:left; padding-left: 2px; }
+.hackathon .node__dot{ left: 0; transform:none; }
+
+/* ---------- inscrição ---------- */
+.form-section{ scroll-margin-top: 84px; }
+.form-grid{
+  display:grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 26px;
+  align-items:start;
+}
+
+/* ---------- gateway de inscrição (redireciona pro Google Forms) ---------- */
+.gateway-grid{
+  display:grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 26px;
+  align-items:start;
+}
+.gateway-panel{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.gateway-panel__text{
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+@media (max-width: 900px){
+  .gateway-grid{ grid-template-columns: 1fr; }
+}
+
+.field{ display:grid; gap:6px; margin-bottom: 16px; }
+.field:last-of-type{ margin-bottom:0; }
+.field > span{ font-size:13.5px; font-weight:600; }
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="tel"],
+.field select{
+  width:100%;
+  padding: 12px 12px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--line);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+}
+.field input:focus, .field select:focus{
+  border-color: var(--orange);
+}
+.field__hint{ min-height:15px; color: #ff9d7a; font-size:12px; }
+
+.toggle-group{
+  display:flex;
+  border: 1px solid var(--line);
+}
+.toggle-group input{
+  position:absolute; opacity:0; width:1px; height:1px;
+}
+.toggle-group label{
+  flex:1;
+  text-align:center;
+  padding: 12px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border-right: 1px solid var(--line);
+  color: var(--muted);
+}
+.toggle-group label:last-child{ border-right:none; }
+.toggle-group input:checked + label{
+  background: var(--orange);
+  color: var(--navy);
+  font-weight:600;
+}
+.toggle-group input:focus-visible + label{
+  outline: 2px solid var(--orange);
+  outline-offset: -3px;
+}
+
+.wire{
+  width: 2px; height: 18px;
+  margin: 2px 0 2px 20px;
+  background: repeating-linear-gradient(to bottom, var(--orange) 0 5px, transparent 5px 10px);
+}
+.wire[hidden]{ display:none; }
+
+.team-block{
+  padding: 18px;
+  border: 1px dashed var(--line-strong);
+  background: rgba(242,129,29,.04);
+  margin-bottom: 16px;
+}
+.team-block[hidden]{ display:none; }
+.team-block h4{ font-size:14px; color: var(--orange-soft); margin-bottom: 14px; }
+.team-members{ display:grid; gap: 12px; }
+
+.check{ display:flex; gap:10px; align-items:flex-start; font-size:14px; color: var(--muted); }
+.check input{ margin-top:3px; width:16px; height:16px; accent-color: var(--orange); }
+
+.steps{ list-style:none; margin:0; padding:0; position:relative; }
+.steps li{
+  position:relative;
+  padding: 0 0 22px 34px;
+  font-size:14.5px;
+  color: var(--muted);
+}
+.steps li:last-child{ padding-bottom:0; }
+.steps li::before{
+  content: attr(data-n);
+  position:absolute; left:0; top:-2px;
+  width:22px; height:22px;
+  border: 1px solid var(--orange);
+  color: var(--orange-soft);
+  font-family: var(--font-mono);
+  font-size:11px;
+  display:grid; place-items:center;
+}
+.steps li:not(:last-child)::after{
+  content:"";
+  position:absolute; left:11px; top:22px; bottom:0;
+  width:1px;
+  background: repeating-linear-gradient(to bottom, var(--orange) 0 4px, transparent 4px 8px);
+}
+
+.faq-mini{ margin-top: 22px; display:grid; gap:10px; }
+.faq-mini details{ border-top: 1px solid var(--line); padding: 12px 0; }
+.faq-mini summary{ cursor:pointer; font-size:14.5px; font-weight:600; }
+.faq-mini p{ margin-top:8px; color: var(--muted); font-size:13.5px; line-height:1.6; }
+
+/* ---------- rodapé ---------- */
+.footer{
+  border-top: 1px solid var(--line);
+  padding: 26px 0;
+}
+.footer__inner{
+  display:flex; align-items:center; justify-content:space-between;
+  gap: 14px; flex-wrap:wrap;
+}
+.footer__brand{ display:flex; align-items:center; gap:10px; }
+.footer__brand img{ width:26px; height:26px; object-fit: contain; }
+.footer__brand span{ font-size:13px; color: var(--muted); }
+.footer__meta{ font-family: var(--font-mono); font-size:12px; color: var(--muted); }
+
+/* ---------- ADIÇÕES: aviso de líder + bloco condicional IFTP/curso técnico ---------- */
+.notice{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border: 1px solid var(--orange);
+  background: rgba(242,129,29,.08);
+}
+.notice__icon{
+  flex: 0 0 auto;
+  width: 22px; height: 22px;
+  border: 1px solid var(--orange);
+  color: var(--orange-soft);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  display:grid; place-items:center;
+}
+.notice p{
+  font-size: 13.5px;
+  color: var(--paper);
+  line-height: 1.5;
+}
+.notice strong{ color: var(--orange-soft); }
+
+.curso-block{
+  padding: 18px;
+  border: 1px dashed var(--line-strong);
+  background: rgba(242,129,29,.04);
+  margin-bottom: 16px;
+}
+.curso-block h4{ font-size:14px; color: var(--orange-soft); margin-bottom: 14px; }
+
+/* =========================================================
+   MICRO-INTERAÇÕES E ANIMAÇÕES — camada adicionada
+   (fundo interativo, título com gradiente, botões com glow
+   magnético/borda rotativa, cards com tilt 3D)
+   ========================================================= */
+
+@property --angle{
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ---------- 1) fundo interativo do hero (canvas de partículas) ---------- */
+.hero{ position: relative; overflow: hidden; }
+.hero__canvas{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+}
+.hero__grid{ position: relative; z-index: 1; }
+
+/* ---------- 3) título com gradiente de texto animado ---------- */
+.hero__text h1{
+  background: linear-gradient(100deg,
+    var(--paper) 25%,
+    var(--orange-soft) 42%,
+    var(--orange) 50%,
+    var(--orange-soft) 58%,
+    var(--paper) 75%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: rise .6s ease both, shimmer 6s linear infinite 1s;
+}
+@keyframes shimmer{
+  0%{ background-position: 220% 0; }
+  100%{ background-position: -120% 0; }
+}
+@media (prefers-reduced-motion: reduce){
+  .hero__text h1{ animation: none; -webkit-background-clip: initial; background-clip: initial; color: var(--paper); }
+}
+
+/* ---------- 2) botões: glow magnético + borda em gradiente rotativa ---------- */
+.btn{
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: transform .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.btn:active{ transform: translateY(0); }
+
+/* borda com gradiente cônico rotativo (botões outline) */
+.btn:not(.btn--solid)::before{
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -2;
+  border-radius: inherit;
+  background: conic-gradient(from var(--angle), transparent 0 60%, var(--orange-soft), var(--orange), transparent 100%);
+  opacity: 0;
+  transition: opacity .35s ease;
+  animation: spin-border 2.6s linear infinite;
+}
+
+/* brilho fluido que segue o cursor dentro do botão */
+.btn::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(140px circle at var(--mx, 50%) var(--my, 50%), rgba(242,129,29,.35), transparent 70%);
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.btn--solid::after{
+  background: radial-gradient(140px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.4), transparent 70%);
+}
+
+/* estados de brilho/glow só em dispositivos com mouse de verdade —
+   em touch, :hover fica "preso" após o toque até a página recarregar */
+@media (hover: hover) and (pointer: fine){
+  .btn:hover{ transform: translateY(-1px); }
+  .btn:not(.btn--solid):hover::before{ opacity: 1; }
+  .btn:hover::after{ opacity: 1; }
+  .btn--solid:hover{ box-shadow: 0 0 24px rgba(242,129,29,.5); }
+}
+
+@keyframes spin-border{
+  to{ --angle: 360deg; }
+}
+@media (prefers-reduced-motion: reduce){
+  .btn:not(.btn--solid)::before{ animation: none; }
+}
+
+/* ---------- 4) cards/painéis com tilt 3D + sombra/borda dinâmicas ---------- */
+[data-tilt]{
+  --glow-x: 50%;
+  --glow-y: 50%;
+  position: relative;
+  transition: transform .15s ease-out, box-shadow .3s ease, border-color .3s ease;
+  will-change: transform;
+}
+[data-tilt]::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(240px circle at var(--glow-x) var(--glow-y), rgba(242,129,29,.16), transparent 70%);
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+@media (hover: hover) and (pointer: fine){
+  [data-tilt]:hover{
+    border-color: var(--orange);
+    box-shadow: 0 24px 48px -20px rgba(0,0,0,.55), 0 0 26px rgba(242,129,29,.22);
+  }
+  [data-tilt]:hover::after{ opacity: 1; }
+}
+.module[data-tilt]{ overflow: hidden; }
+
+@media (max-width: 700px){
+  [data-tilt]{ transform: none !important; }
+  [data-tilt]::after{ display: none; }
+}
+@media (prefers-reduced-motion: reduce){
+  [data-tilt]{ transition: none; }
+  [data-tilt]::after{ display: none; }
+}
+
+/* ---------- responsivo ---------- */
+@media (max-width: 900px){
+  .hero__grid{ grid-template-columns: 1fr; }
+  .hero__frame{ order:-1; padding: 18px; }
+  .hero__frame img{ max-width: 240px; }
+  .about{ grid-template-columns: 1fr; }
+  .modules{ grid-template-columns: 1fr; }
+  .form-grid{ grid-template-columns: 1fr; }
+  .circuit-row{ grid-template-columns: repeat(2, minmax(0,1fr)); row-gap: 26px; }
+}
+@media (max-width: 760px){
+  .menu-toggle{ display:inline-flex; align-items:center; justify-content:center; }
+  .topnav{
+    position:absolute; top: 60px; right: var(--pad);
+    width: min(300px, calc(100% - 2*var(--pad)));
+    flex-direction:column; align-items:stretch;
+    background: var(--navy-panel);
+    border: 1px solid var(--line);
+    padding: 12px;
+    display:none;
+  }
+  .topnav.is-open{ display:flex; }
+  .topnav a{ padding: 12px 14px; }
+
+  /* ligamento entre os pontos do "Como funciona" na vertical (mais legível no smartphone) */
+  .hackathon .circuit-row{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .hackathon .circuit-row::before{ display:none; }
+  .hackathon .node{
+    padding: 0 0 30px 26px;
+  }
+  .hackathon .node:last-child{ padding-bottom: 0; }
+  .hackathon .node:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    top:12px; left:4px; bottom:0;
+    width:1px;
+    background: repeating-linear-gradient(to bottom, var(--orange) 0 6px, transparent 6px 13px);
+  }
+}
