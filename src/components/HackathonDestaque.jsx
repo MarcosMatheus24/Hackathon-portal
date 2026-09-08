@@ -26,7 +26,7 @@ export default function HackathonDestaque({ nodes }) {
         <div className="hackathon__actions" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <a className="btn btn--solid" href="#inscricao">Quero me inscrever</a>
           {/* Botão do edital do hackathon: substitua o href pelo link/arquivo oficial do edital (PDF ou página) */}
-          <a className="btn" href="/img/edital-hackathon-clubeds.pdf" target="_blank" rel="noopener noreferrer">
+          <a className="btn" href="/img/regulamento.pdf" target="_blank" rel="noopener noreferrer">
             Ver edital do hackathon
           </a>
         </div>
