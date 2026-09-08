@@ -542,58 +542,36 @@ p{ margin: 0; }
   .hero__text h1{ animation: none; -webkit-background-clip: initial; background-clip: initial; color: var(--paper); }
 }
 
-/* ---------- 2) botões: glow magnético + borda em gradiente rotativa ---------- */
+/* ---------- 2) botões: brilho suave no hover ---------- */
 .btn{
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  transition: transform .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+  transition: transform .2s ease, border-color .3s ease, color .3s ease, box-shadow .3s ease;
 }
 .btn:active{ transform: translateY(0); }
 
-/* borda com gradiente cônico rotativo (botões outline) */
-.btn:not(.btn--solid)::before{
-  content: "";
-  position: absolute;
-  inset: -1px;
-  z-index: -2;
-  border-radius: inherit;
-  background: conic-gradient(from var(--angle), transparent 0 60%, var(--orange-soft), var(--orange), transparent 100%);
-  opacity: 0;
-  transition: opacity .35s ease;
-  animation: spin-border 2.6s linear infinite;
-}
-
-/* brilho fluido que segue o cursor dentro do botão */
+/* brilho estático e discreto, só aparece/some com fade */
 .btn::after{
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: radial-gradient(140px circle at var(--mx, 50%) var(--my, 50%), rgba(242,129,29,.18), transparent 70%);
+  background: radial-gradient(180px circle at 50% 50%, rgba(242,129,29,.16), transparent 70%);
   opacity: 0;
-  transition: opacity .3s ease;
+  transition: opacity .5s ease;
 }
 .btn--solid::after{
-  background: radial-gradient(140px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.4), transparent 70%);
+  background: radial-gradient(180px circle at 50% 50%, rgba(255,255,255,.18), transparent 70%);
 }
 
-/* estados de brilho/glow só em dispositivos com mouse de verdade —
-   em touch, :hover fica "preso" após o toque até a página recarregar */
+/* só em dispositivos com mouse de verdade — em touch, :hover fica
+   "preso" após o toque até a página recarregar */
 @media (hover: hover) and (pointer: fine){
-  .btn:hover{ transform: translateY(-1px); }
-  .btn:not(.btn--solid):hover::before{ opacity: 1; }
+  .btn:hover{ transform: translateY(-1px); border-color: var(--orange); }
   .btn:hover::after{ opacity: 1; }
-  .btn--solid:hover{ box-shadow: 0 0 24px rgba(242,129,29,.5); }
+  .btn--solid:hover{ box-shadow: 0 0 14px rgba(242,129,29,.3); }
 }
-
-@keyframes spin-border{
-  to{ --angle: 360deg; }
-}
-@media (prefers-reduced-motion: reduce){
-  .btn:not(.btn--solid)::before{ animation: none; }
-}
-
 /* ---------- 4) cards/painéis com tilt 3D + sombra/borda dinâmicas ---------- */
 [data-tilt]{
   --glow-x: 50%;
