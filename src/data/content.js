@@ -61,7 +61,7 @@ export const faq = [
   },
   {
     q: "Preciso saber programar bem?",
-    a: "Não. Teremos workshops para os alunos participantes, afim de nivelar o conhecimento dos mesmos.",
+    a: "Não. Teremos workshops para os alunos participantes, a fim de nivelar o conhecimento dos mesmos.",
   },
   {
     q: "Preciso estar matriculado?",
