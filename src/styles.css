@@ -318,6 +318,10 @@ p{ margin: 0; }
 .hackathon .circuit-row{ margin-top: 30px; margin-bottom: 34px; }
 .hackathon .node{ text-align:left; padding-left: 2px; }
 .hackathon .node__dot{ left: 0; transform:none; }
+.hackathon .circuit-row::before{
+  left: 0;
+  right: calc(25% - 13.5px);
+}
 
 /* ---------- inscrição ---------- */
 .form-section{ scroll-margin-top: 84px; }
