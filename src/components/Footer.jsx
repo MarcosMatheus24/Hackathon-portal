@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer__inner">
         <div className="footer__brand">
-          <img src="/img/logo-icon.png" alt="Ícone ClubeDS" />
+          <img src="/img/favicon_powertech-removebg-preview.png" alt="Ícone ClubeDS" />
           <span>ClubeDS — Grupo de estudo em Programação</span>
         </div>
         <div className="footer__meta">© <span>{year}</span> ClubeDS</div>
