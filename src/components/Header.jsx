@@ -34,7 +34,7 @@ export default function Header({ navLinks }) {
     <header className="topbar">
       <div className="container topbar__inner">
         <a className="brand" href="#topo">
-          <img className="brand__logo-icon" src="/img/logo-icon.png" alt="Ícone ClubeDS" />
+          <img className="brand__logo-icon" src="/img/favicon_powertech-removebg-preview.png" alt="Ícone ClubeDS" />
           <span className="brand__text">
             <strong>ClubeDS</strong>
             <span>SENAI CIMATEC </span>
