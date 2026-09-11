@@ -19,7 +19,7 @@ export default function Hero() {
         </div>
 
         <div className="hero__frame panel" data-tilt>
-          <img src="/img/Hackathon - PowerTech -SENAI CIMATEC (1).jpg" alt="powertech" />
+          <img src="/img/logo_powertech-removebg-preview.png" alt="powertech" />
         </div>
       </div>
     </section>
