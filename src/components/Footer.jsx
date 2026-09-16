@@ -26,12 +26,9 @@ export default function Footer() {
             </svg>
             @clubeds
           </a>
-
-          <a
             href="mailto:ds.clube00@gmail.com"
             className="footer__link"
             aria-label="Enviar email para o ClubeDS"
-          >
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8">
               <rect x="3" y="5" width="18" height="14" rx="2" />
               <path d="M3 7l9 6 9-6" />
