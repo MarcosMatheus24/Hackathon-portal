@@ -463,6 +463,14 @@ p{ margin: 0; }
 .footer__brand{ display:flex; align-items:center; gap:10px; }
 .footer__brand img{ width:26px; height:26px; object-fit: contain; }
 .footer__brand span{ font-size:13px; color: var(--muted); }
+.footer__links{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+.footer__link{
+  display:flex; align-items:center; gap:6px;
+  font-size:13px; color: var(--muted);
+  text-decoration:none;
+}
+.footer__link:hover{ color: var(--text, inherit); text-decoration:underline; }
+.footer__link svg{ flex-shrink:0; }
 .footer__meta{ font-family: var(--font-mono); font-size:12px; color: var(--muted); }
 
 /* ---------- ADIÇÕES: aviso de líder + bloco condicional IFTP/curso técnico ---------- */
