@@ -28,7 +28,7 @@ export default function Footer() {
           </a>
 
           <a
-            href="mailto:ds.clube00@gmail.com"
+            href="ds.clube00@gmail.com"
             className="footer__link"
             aria-label="Enviar email para o ClubeDS"
           >
