@@ -13,7 +13,7 @@ export default function Footer() {
 
         <div className="footer__links">
           <a
-            href="https://instagram.com/clubeds"
+            href="https://www.instagram.com/hckt_powertech?stkn=MWFlcmJseHFuaHYwbQ%3D%3D"
             target="_blank"
             rel="noopener noreferrer"
             className="footer__link"
@@ -28,7 +28,7 @@ export default function Footer() {
           </a>
 
           <a
-            href="mailto:contato@clubeds.com"
+            href="mailto:ds.clube00@gmail.com"
             className="footer__link"
             aria-label="Enviar email para o ClubeDS"
           >
