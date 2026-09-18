@@ -13,7 +13,7 @@ export default function Footer() {
 
         <div className="footer__links">
           <a
-            href="https://www.instagram.com/hckt_powertech?stkn=MWFlcmJseHFuaHYwbQ%3D%3D"
+            href="https://www.instagram.com/ds.clube?stkn=MTI2bDA4cWJ6cW82MQ=="
             target="_blank"
             rel="noopener noreferrer"
             className="footer__link"
