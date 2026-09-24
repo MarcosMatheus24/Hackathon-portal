@@ -1,30 +1,21 @@
 import React from "react";
 
-export default function InscricaoGateway({ formUrl, steps, faq }) {
+export default function InscricaoGateway({ steps, faq }) {
   return (
     <div className="gateway-grid">
       <div className="panel gateway-panel" data-tilt>
         <div className="notice">
           <span className="notice__icon" aria-hidden="true">!</span>
           <p>
-            <strong>Atenção:</strong> a inscrição é feita em um formulário externo (Google Forms).
-            Somente o <strong>LÍDER da equipe</strong> deve preencher.
+            <strong>Inscrições encerradas.</strong> O período de inscrição do
+            Hackathon ClubeDS já foi finalizado e não estamos mais recebendo
+            novas equipes.
           </p>
         </div>
 
         <p className="gateway-panel__text">
-          Clique no botão abaixo para abrir o formulário de inscrição do Hackathon ClubeDS.
-          Você será redirecionado(a) para o Google Forms em uma nova aba.
+          Fique de olho nos nossos canais para as próximas edições do Hackathon!
         </p>
-
-        <a
-          className="btn btn--solid btn--block"
-          href={formUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Abrir formulário de inscrição
-        </a>
       </div>
 
       <aside className="panel" data-tilt>
