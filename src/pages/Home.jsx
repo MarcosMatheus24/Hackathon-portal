@@ -15,7 +15,6 @@ import {
   circuitNodes,
   steps,
   faq,
-  googleFormUrl,
 } from "../data/content.js";
 
 export default function Home() {
@@ -38,19 +37,18 @@ export default function Home() {
         <HackathonDestaque nodes={circuitNodes} />
 
         {/* INSCRIÇÃO */}
-        <section id="inscricao" className="section form-section">
-          <div className="container">
-            <div className="section__head">
-              <h2>Inscrição</h2>
-              <p>
-                A inscrição para o <strong>Hackathon ClubeDS</strong> é feita pelo nosso
-                formulário no Google Forms. Clique no botão abaixo para abrir e preencher.
-              </p>
-            </div>
+<section id="inscricao" className="section form-section">
+  <div className="container">
+    <div className="section__head">
+      <h2>Inscrição</h2>
+      <p>
+        As inscrições para o <strong>Hackathon ClubeDS</strong> estão encerradas.
+      </p>
+    </div>
 
-            <InscricaoGateway formUrl={googleFormUrl} steps={steps} faq={faq} />
-          </div>
-        </section>
+    <InscricaoGateway steps={steps} faq={faq} />
+  </div>
+</section>
       </main>
 
       <Footer />
